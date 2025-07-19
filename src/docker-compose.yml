@@ -1,0 +1,5 @@
+services:
+  eshopdb:
+    image: postgres
+volumes:
+  postgres_eshopdb:
