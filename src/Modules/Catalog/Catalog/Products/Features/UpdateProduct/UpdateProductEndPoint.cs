@@ -1,6 +1,6 @@
 ﻿namespace Catalog.Products.Features.UpdateProduct;
 
-public record UpdateProductRequest(ProductDto ProductDto); 
+public record UpdateProductRequest(ProductDto Product); 
 public record UpdateProductResponse(bool IsSuccess);
 public class UpdateProductEndPoint : ICarterModule
 {
