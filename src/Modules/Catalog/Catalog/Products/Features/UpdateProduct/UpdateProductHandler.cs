@@ -5,6 +5,16 @@ public record UpdateProductCommand(ProductDto Product)
 
 public record UpdateProductResult(bool IsSuccess);
 
+public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+{
+    public UpdateProductCommandValidator()
+    {
+        RuleFor(x => x.Product.Id).NotEmpty().WithMessage("Id is required");
+        RuleFor(x => x.Product.Name).NotEmpty().WithMessage("Name is required");
+        RuleFor(x => x.Product.Price).GreaterThan(0).WithMessage("Price must be greater than 0");
+    }
+}
+
 public class UpdateProductHandler(CatalogDbContext dbContext)
     : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {
@@ -13,7 +23,7 @@ public class UpdateProductHandler(CatalogDbContext dbContext)
         var product = await dbContext.Products
             .FindAsync([command.Product.Id], cancellationToken: cancellationToken);
         if (product is null)
-            throw new Exception($"Product not found: {command.Product.Id}");
+            throw new ProductNotFoundException(command.Product.Id);
 
         UpdateProductWithNewValues(product, command.Product);
 

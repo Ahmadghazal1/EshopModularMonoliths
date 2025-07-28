@@ -1,6 +1,7 @@
 services:
   eshopdb:
     container_name: eshopdb
+    image: postgres
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -10,3 +11,20 @@ services:
       - "5432:5432"
     volumes:
       - postgres_eshopdb:/var/lib/postgresql/data/
+
+  seq:
+    container_name: seq
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORD=YourStrongAdminPassword123!  
+    restart: always
+    ports:
+      - "5341:5341"
+      - "9091:80"
+    volumes:
+      - seq_data:/data
+
+volumes:
+  postgres_eshopdb:
+  seq_data:
