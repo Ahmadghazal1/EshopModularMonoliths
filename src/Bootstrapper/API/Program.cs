@@ -12,8 +12,15 @@ namespace API
 
             //Add services to the container.
 
+            //common services : carter , mediatr , fluentvalidation
+            var catalogAssembly = typeof(CatalogModule).Assembly;
+            var BasketAssembly = typeof(BasketModule).Assembly;
+
             builder.Services
-                 .AddCarterWithAssemblies(typeof(CatalogModule).Assembly);
+                 .AddCarterWithAssemblies(catalogAssembly,BasketAssembly);
+
+            builder.Services
+                .AddMediatRWithAssemblies(catalogAssembly, BasketAssembly);
 
             builder.Services
                 .AddCatalogModule(builder.Configuration)
