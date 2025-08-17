@@ -22,6 +22,11 @@ namespace API
             builder.Services
                 .AddMediatRWithAssemblies(catalogAssembly, BasketAssembly);
 
+            builder.Services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = builder.Configuration.GetConnectionString("Redis");
+            });
+
             builder.Services
                 .AddCatalogModule(builder.Configuration)
                 .AddBasketModule(builder.Configuration)
