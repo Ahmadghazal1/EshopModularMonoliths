@@ -27,6 +27,8 @@ namespace API
                 options.Configuration = builder.Configuration.GetConnectionString("Redis");
             });
 
+            builder.Services.AddMassTransitWithAssemblies(builder.Configuration,catalogAssembly, BasketAssembly);
+
             builder.Services
                 .AddCatalogModule(builder.Configuration)
                 .AddBasketModule(builder.Configuration)
