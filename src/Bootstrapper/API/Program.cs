@@ -1,3 +1,5 @@
+using Keycloak.AuthServices.Authentication;
+
 namespace API
 {
     public class Program
@@ -29,6 +31,9 @@ namespace API
 
             builder.Services.AddMassTransitWithAssemblies(builder.Configuration,catalogAssembly, BasketAssembly);
 
+            builder.Services.AddKeycloakWebApiAuthentication(builder.Configuration);
+            builder.Services.AddAuthorization();
+
             builder.Services
                 .AddCatalogModule(builder.Configuration)
                 .AddBasketModule(builder.Configuration)
@@ -40,9 +45,12 @@ namespace API
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+       
             app.MapCarter();
             app.UseSerilogRequestLogging();
             app.UseExceptionHandler(options => { });
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.
                  UseCatalogModule()
