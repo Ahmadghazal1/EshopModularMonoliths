@@ -17,19 +17,20 @@ namespace API
             //common services : carter , mediatr , fluentvalidation
             var catalogAssembly = typeof(CatalogModule).Assembly;
             var BasketAssembly = typeof(BasketModule).Assembly;
+            var orderingAssembly = typeof(OrderingModule).Assembly;
 
             builder.Services
-                 .AddCarterWithAssemblies(catalogAssembly,BasketAssembly);
+                 .AddCarterWithAssemblies(catalogAssembly,BasketAssembly, orderingAssembly);
 
             builder.Services
-                .AddMediatRWithAssemblies(catalogAssembly, BasketAssembly);
+                .AddMediatRWithAssemblies(catalogAssembly, BasketAssembly , orderingAssembly);
 
             builder.Services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = builder.Configuration.GetConnectionString("Redis");
             });
 
-            builder.Services.AddMassTransitWithAssemblies(builder.Configuration,catalogAssembly, BasketAssembly);
+            builder.Services.AddMassTransitWithAssemblies(builder.Configuration,catalogAssembly, BasketAssembly, orderingAssembly);
 
             builder.Services.AddKeycloakWebApiAuthentication(builder.Configuration);
             builder.Services.AddAuthorization();
